@@ -56,6 +56,9 @@ module ActiveAttr
     #
     # @since 0.5.0
     def attribute(name)
+      value = super
+      value = nil if value == '' && _nil_if_blank(name) # RS HACK
+
       typecast_attribute(_attribute_typecaster(name), super)
     end
 
@@ -65,6 +68,13 @@ module ActiveAttr
     # @since 0.5.0
     def _attribute_type(attribute_name)
       self.class._attribute_type(attribute_name)
+    end
+
+    # Checks if we should return nil on blank fields
+    #
+    # @private
+    def _nil_if_blank(attribute_name)
+      self.class._nil_if_blank(attribute_name)
     end
 
     # Resolve an attribute typecaster
@@ -97,6 +107,17 @@ module ActiveAttr
       # @since 0.5.0
       def _attribute_type(attribute_name)
         attributes[attribute_name][:type] || Object
+      end
+
+      # policy to determine if we convert blank fields to nil
+      #
+      # @note RS HACK!
+      def _nil_if_blank(attribute_name)
+        if !attributes[attribute_name][:nil_if_blank].nil?
+          attributes[attribute_name][:nil_if_blank]
+        else
+          true
+        end
       end
     end
   end
