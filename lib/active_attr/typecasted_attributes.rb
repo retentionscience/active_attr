@@ -59,7 +59,7 @@ module ActiveAttr
       value = super
       value = nil if value == '' && _nil_if_blank(name) # RS HACK
 
-      typecast_attribute(_attribute_typecaster(name), super)
+      typecast_attribute(_attribute_typecaster(name), value)
     end
 
     # Calculates an attribute type
