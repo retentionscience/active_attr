@@ -33,7 +33,7 @@ module ActiveAttr
       # @since 0.5.0
       def call(value)
         if value.respond_to? :to_datetime          
-          if @time_zone # RS HACK time_zone support
+          if value.instance_of?(String) && @time_zone # RS HACK time_zone support
             @time_zone.call.parse(value)
           else
             value.to_datetime
