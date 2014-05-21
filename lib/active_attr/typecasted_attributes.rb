@@ -83,7 +83,10 @@ module ActiveAttr
     # @since 0.6.0
     def _attribute_typecaster(attribute_name)
       type = _attribute_type(attribute_name)
-      self.class.attributes[attribute_name][:typecaster] || typecaster_for(type) or raise UnknownTypecasterError, "Unable to cast to type #{type}"
+
+      # RS HACK. Some types support options
+      options = self.class.attributes[attribute_name][:options]
+      self.class.attributes[attribute_name][:typecaster] || typecaster_for(type, options) or raise UnknownTypecasterError, "Unable to cast to type #{type}"
     end
 
     module ClassMethods
@@ -119,6 +122,7 @@ module ActiveAttr
           true
         end
       end
+
     end
   end
 end

@@ -58,9 +58,18 @@ module ActiveAttr
     # @return [#call, nil] The typecaster to use
     #
     # @since 0.6.0
-    def typecaster_for(type)
+    def typecaster_for(type, options = {})
       typecaster = TYPECASTER_MAP[type]
-      typecaster.new if typecaster
+
+      # RS HACK
+      # Some types support options, used for Datetime with time_zone
+      if typecaster
+        if options.blank?
+          typecaster.new
+        else
+          typecaster.new(options)
+        end
+      end
     end
   end
 end

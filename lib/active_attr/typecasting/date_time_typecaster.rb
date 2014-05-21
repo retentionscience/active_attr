@@ -11,6 +11,14 @@ module ActiveAttr
     #
     # @since 0.5.0
     class DateTimeTypecaster
+
+      # RS HACK time_zone support
+      # ie: attribute :ends_at, :type => DateTime, 
+      #       :options => { :time_zone =>  lambda { site.time_zone } }
+      def initialize(options = {})
+        @time_zone = options.fetch(:time_zone, nil)
+      end
+
       # Typecasts an object to a DateTime
       #
       # Attempts to convert using #to_datetime.
@@ -24,7 +32,13 @@ module ActiveAttr
       #
       # @since 0.5.0
       def call(value)
-        value.to_datetime if value.respond_to? :to_datetime
+        if value.respond_to? :to_datetime          
+          if @time_zone # RS HACK time_zone support
+            @time_zone.call.parse(value)
+          else
+            value.to_datetime
+          end
+        end
       end
     end
   end
