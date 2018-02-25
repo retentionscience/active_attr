@@ -11,32 +11,32 @@ module ActiveAttr
       let(:gem_version) { Gem::Version.new VERSION }
       subject(:version) { gem_version }
 
-      it { version.should have_at_least(3).segments }
-      it { version.should have_at_most(5).segments }
+      it { version.segments.size.should >= 3 }
+      it { version.segments.size.should <= 5 }
 
       describe "major version" do
         subject { gem_version.segments[0] }
 
-        it { should be_a_kind_of Fixnum }
+        it { should be_a_kind_of Integer }
       end
 
       describe "minor version" do
         subject { gem_version.segments[1] }
 
-        it { should be_a_kind_of Fixnum }
+        it { should be_a_kind_of Integer }
       end
 
       describe "patch version" do
         subject { gem_version.segments[2] }
 
-        it { should be_a_kind_of Fixnum }
+        it { should be_a_kind_of Integer }
       end
 
       describe "pre-release version" do
         subject(:pre_release_version) { VERSION.split(".")[3] }
 
         it "is nil or starts with a letter and is alphanumeric" do
-          (pre_release_version.nil? || pre_release_version =~ /^[A-Za-z][0-9A-Za-z]*?/).should be_true
+          (pre_release_version.nil? || pre_release_version =~ /^[A-Za-z][0-9A-Za-z]*?/).should == true
         end
       end
     end

@@ -1,9 +1,16 @@
 require "active_model/lint"
-require "test/unit/assertions"
 
 shared_examples_for "ActiveModel" do
   include ActiveModel::Lint::Tests
-  include Test::Unit::Assertions
+
+  begin
+    require "minitest/assertions"
+    include Minitest::Assertions
+  rescue LoadError
+    require "minitest/unit"
+    include MiniTest::Assertions
+  end
+
   attr_writer :assertions
 
   def assertions

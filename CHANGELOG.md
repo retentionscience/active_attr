@@ -1,3 +1,41 @@
+# ActiveAttr 0.10.3 (February 16, 2018) #
+
+* ActiveAttr now supports Rails 5.2
+
+# ActiveAttr 0.10.2 (July 21, 2017) #
+
+* Add the license to the gemspec (Koichi ITO)
+
+# ActiveAttr 0.10.1 (May 4, 2017) #
+
+* Documentation and test updates for Ruby 2.4 deprecating Fixnum
+* ActiveAttr now supports Rails 5.1
+
+# ActiveAttr 0.10.0 (February 7, 2017) #
+
+* ActiveAttr now supports Ruby 2.4.0
+
+# ActiveAttr 0.9.0 (January 27, 2016) #
+
+* ActiveAttr now supports Rails 5.0.0
+* Following the lead of Rails 5, Serialization no longer includes XML
+  serialization by default. Include the ActiveModel::Serializers::Xml
+  module to get this functionality. With Rails 5. You'll need to
+  install the activemodel-serializers-xml gem, which is not yet
+  published on RubyGems.org
+
+# ActiveAttr 0.8.5 (December 22, 2014) #
+
+* ActiveAttr now supports Rails 4.2.0 (Jesse B. Hannah)
+
+# ActiveAttr 0.8.4 (July 11, 2014) #
+
+* ActiveAttr now supports RSpec 3.0.0 (Aaron Mc Adam)
+
+# ActiveAttr 0.8.3 (April 8, 2014) #
+
+* ActiveAttr now supports Rails 4.1.0
+
 # ActiveAttr 0.8.2 (June 16, 2013) #
 
 * #108 Fix grammar in HaveAttributeMatcher#description (Matt Hodan)
