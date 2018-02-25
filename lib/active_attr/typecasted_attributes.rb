@@ -57,7 +57,7 @@ module ActiveAttr
     # @since 0.5.0
     def attribute(name)
       value = super
-      value = nil if value == '' && _nil_if_blank(name) # RS HACK
+      value = nil if value == '' && convert_blank_fields_to_nil?(name)
 
       typecast_attribute(_attribute_typecaster(name), value)
     end
@@ -73,8 +73,8 @@ module ActiveAttr
     # Checks if we should return nil on blank fields
     #
     # @private
-    def _nil_if_blank(attribute_name)
-      self.class._nil_if_blank(attribute_name)
+    def convert_blank_fields_to_nil?(attribute_name)
+      self.class.convert_blank_fields_to_nil?(attribute_name)
     end
 
     # Resolve an attribute typecaster
@@ -84,7 +84,8 @@ module ActiveAttr
     def _attribute_typecaster(attribute_name)
       type = _attribute_type(attribute_name)
 
-      # RS HACK. Some types support options
+      # RS HACK. Some types support options.
+      # See the DateTime types in AdaptiveCampaignParameterForm.
       options = self.class.attributes[attribute_name][:options]
       self.class.attributes[attribute_name][:typecaster] || typecaster_for(type, options) or raise UnknownTypecasterError, "Unable to cast to type #{type}"
     end
@@ -112,14 +113,11 @@ module ActiveAttr
         attributes[attribute_name][:type] || Object
       end
 
-      # policy to determine if we convert blank fields to nil
-      #
-      # @note RS HACK!
-      def _nil_if_blank(attribute_name)
-        if !attributes[attribute_name][:nil_if_blank].nil?
-          attributes[attribute_name][:nil_if_blank]
-        else
+      def convert_blank_fields_to_nil?(attribute_name)
+        if attributes[attribute_name][:nil_if_blank].nil?
           true
+        else
+          attributes[attribute_name][:nil_if_blank]
         end
       end
 
